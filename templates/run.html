@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="pads full-width">
+        Hello! Here is stdout of task "{{service}} {{command}}" execution:
+    </div>
+
+    <div class="pads full-width">
+        <pre>
+            {% autoescape false %}
+            {{ stdout }}
+            {% endautoescape %}
+        </pre>
+    </div>
+
+{% endblock %}

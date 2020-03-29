@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='services.css') }}" rel="stylesheet">
+        {% if title %}
+            <title>{{ title }} - Controller</title>
+        {% else %}
+            <title>Welcome to Controller!</title>
+        {% endif %}
+    </head>
+    <body>
+        <header>
+            Welcome to Controller!
+        </header>
+        <ul>
+            <li> <a href="{{url_for('index')}}"> main </a> </li>
+            <li> <a href="{{url_for('index')}}"> second </a> </li>
+            <li> <a href="{{url_for('index')}}"> exit </a> </li>
+            <li> <a href="{{url_for('index')}}"> something </a> </li>
+        </ul>
+	    <div id="wrapper">
+            <section>
+                {% block content %}{% endblock %}
+            </section>
+        </div>
+        <footer>
+            (c) Sony 2020
+        </footer>
+    </body>
+</html>

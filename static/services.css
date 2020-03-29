@@ -1,0 +1,112 @@
+div.service {
+    padding: 0.2vw;
+    margin: 0.3vh 0.3vw;
+}
+
+div.service div {
+    font-size: 1vw;
+    margin: 0.3vw;
+    padding: 0.5vw;
+    text-align: center;
+    display: inline-block;
+}
+
+div.service div.name {
+    width: 7vw;
+    background-color: RGBA(0,0,0,0.2);
+    font-weight: bold;
+    color: white;
+}
+
+div.service:hover div.name {
+    background-color: RGBA(0,0,0,0.7);
+}
+
+div.service div.uptime {
+    color: black;
+    opacity: 0.5;
+}
+div.service div.cmd {
+    color: black;
+    background-color: white;
+    opacity: 0.5;
+}
+div.service div.cmd:hover {
+    opacity: 1;
+}
+
+div.up {
+    background-color: #ddeeaa;
+}
+div.down {
+    background-color: #ffaaaa;
+}
+div.unknown {
+    background-color: #ffeeaa;
+}
+div.empty {
+    background-color: #eeeeee;
+}
+
+div.service div.switcher {
+    background-color: #eeeeee;
+    width: 3vw;
+    position: relative;
+
+}
+div.service div.switcher:hover {
+    background-color: white;
+}
+
+div.service div.enabled {
+    color: #99aa66;
+    text-align: left;
+}
+
+div.service div.disabled {
+    color: #666666;
+    text-align: right;
+}
+
+div.service div.switcher div {
+    float: right;
+    position: absolute;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    width: 30%;
+    height: 100%;
+}
+
+
+div.service div.enabled div.button{
+    background-color: #bbcc88;
+    right: 0;
+}
+
+div.service div.disabled div.button{
+    background-color: #cccccc;
+    left: 0;
+}
+
+
+div.service div.disabled:active div.button{
+    background-color: #bbcc88;
+    right: 0;
+}
+
+div.service div.enabled:active div.button{
+    background-color: #cccccc;
+    left: 0;
+}
+
+div.service div.disabled:active {
+    color: #99aa66;
+    text-align: left;
+}
+
+div.service div.enabled:active {
+    color: #666666;
+    text-align: right;
+}
+

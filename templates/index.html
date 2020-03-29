@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="pads full-width">
+        <h1>Привет! </h1>
+        Здесь небольшое приветствие и отчет по температуре - кстати, она сейчас {{ cache['temp'] }} градусов!
+    </div>
+
+
+
+    {% if param['reboot'] %}
+    {% set class = 'empty' %}
+    {% else %}
+    {% set class = 'up' %}
+    {% endif %}
+
+    <div class="pads half-width left">
+        <div class="service {{ class }}">
+            <div class="name">
+                pi
+            </div>
+            <a href="{{url_for('reboot')}}">
+                <div class="cmd">
+                    reboot
+                </div>
+            </a>
+            <div class="uptime">
+                {% if param['reboot'] %}
+                The system is rebooting ...
+                {% else %}
+                {{ cache['uptime'] }}
+                {% endif %}
+            </div>
+        </div>
+
+        {% for service in services %}
+
+            {% if param['reboot'] %}
+            {% set class = 'empty' %}
+            {% else %}
+            {% set class = services[service]['status'] %}
+            {% endif %}
+
+
+            <div class="service {{ class }}">
+                <div class="name">
+                    {{service}}
+                </div>
+                {% for cmd in commands %}
+                    {% if (cmd != 'enable') and (cmd != 'disable') and ((class in ["up", "down"]) or (cmd == "status")) %}
+                        <a href="{{url_for('run', command=cmd, service=service)}}">
+                            <div class="cmd">
+                                {{cmd}}
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                {% if services[service]['status'] in ["up", "down"] %}
+                    <a href="{{url_for('run', command=('disable' if services[service]['enabled'] else 'enable'), service=service)}}">
+                        <div class="switcher {{ 'enabled' if services[service]['enabled'] else 'disabled' }}">
+                        {{ 'on' if services[service]['enabled'] else 'off' }}
+                            <div class="button"></div>
+                        </div>
+                    </a>
+
+                {% endif %}
+
+                {% if services[service]['uptime']%}
+                    <div class="uptime">
+                        {{services[service]['uptime']}}
+                    </div>
+                {% endif %}
+            </div>
+
+
+        {% endfor %}
+    </div>
+    <div class="pads half-width right">
+        <canvas id="chart"></canvas>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='Chart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='charts.js') }}"></script>
+
+{% endblock %}
