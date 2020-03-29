@@ -79,6 +79,7 @@
         <canvas id="chart"></canvas>
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename='Chart.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='charts.js') }}"></script>
-
+    <script>
+        {% include 'script.js' %}
+    </script>
 {% endblock %}

@@ -27,7 +27,7 @@ SERVICES = {
 CACHE = {}
 
 CACHE['graphs'] = {}
-CACHE['graphs']['cpu_temp'] = loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/cpu_temp")).content)
+CACHE['graphs']['cpu_temp'] = loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/cpu_temp?last=20")).content)['data']
 
 @app.route('/')
 @app.route('/index')
@@ -51,7 +51,8 @@ def run(service, command):
 @app.route('/api/<path:path>', methods=['GET', 'PUT'])
 def proxy(path):
     if request.method=='GET':
-        resp = requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], path))
+        addr = 'http://127.0.0.1:%s/api/%s%s' % (PORTS['restapi'], path, ("?" + request.query_string.decode('utf-8') if request.query_string else ""))
+        resp = requests.get(addr)
         excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
         headers = [(name, value) for (name, value) in     resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
