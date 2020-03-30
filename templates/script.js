@@ -1,62 +1,70 @@
-const N = 10;
+	var timeFormat = 'MM/DD/YYYY HH:mm';
 
-new Chart(document.querySelector('#chart'), {
-    type: 'line',
-    data: {
 
-        datasets: [ {
-            label: 'hello, world!!',
-            data : [{% for item in cache['graphs']['cpu_temp'] %} { x: {{item}}, y: {{ cache['graphs']['cpu_temp'][item]}} },{% endfor %}],
-            pointHitRadius: 15,
-            pointHoverBorderColor: 'blue',
-            pointHoverBackgroundColor: 'red'
-        }],
-    },
-    options: {
-        responsive: true,
-        legend: {
-            display: false
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }],
-            xAxes: [{
-                type: 'time',
-               /* time: {
-                    unit: 'minute'
-                }*/
-            }]
-        }
-    }
-});
-/*
 
-        new Chart(document.querySelector('#chart'), {
-            labels : [{% for item in cache['graphs']['cpu_temp'] %} {{item}},{% endfor %}],
-            datasets : [{
-                label: '{{ legend }}',
-                fill: true,
-                lineTension: 0.1,
-                backgroundColor: "rgba(75,192,192,0.4)",
-                borderColor: "rgba(75,192,192,1)",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "rgba(75,192,192,1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data : [{% for item in cache['graphs']['cpu_temp'] %}"{{ cache['graphs']['cpu_temp'][item]}}",{% endfor %}],
-                spanGaps: false
-            }]
-        });
-*/
+		function newDateLabel(hours) {
+			return moment().add(hours, 'h').toDate();
+		}
+
+		function newDate(sec) {
+			return moment().add(sec, 'd').toDate();
+		}
+
+		function newDateString(sec) {
+			return moment(sec*1000).format(timeFormat);
+		}
+
+		var color = Chart.helpers.color;
+		var config = {
+			type: 'line',
+			data: {
+				labels: [ // Date Objects
+				],
+				datasets: [ /*{
+					label: 'Температура процессора',
+					backgroundColor: color('#bbcc88').alpha(0.7).rgbString(),
+					borderColor: "#bbcc88",
+					fill: false,
+                    data : [{% for item in cache['graphs']['cpu_temp'] %} { x: newDateString({{item}}), y: {{ cache['graphs']['cpu_temp'][item]}} },{% endfor %}],
+				},*/{
+					label: 'Место на диске',
+					backgroundColor: color('#dd8888').alpha(0.7).rgbString(),
+					borderColor: "#dd8888",
+					fill: false,
+                    data : [{% for item in cache['graphs']['diskspace_left'] %} { x: newDateString({{item}}), y: {{ cache['graphs']['diskspace_left'][item]}} },{% endfor %}],
+				}]
+			},
+			options: {
+				title: {
+					text: 'Chart.js Time Scale'
+				},
+				scales: {
+					xAxes: [{
+						type: 'time',
+						time: {
+							parser: timeFormat,
+							tooltipFormat: 'll HH:mm'
+						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Date'
+						}
+					}],
+					yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+						scaleLabel: {
+							display: true,
+							labelString: 'value'
+						}
+					}]
+				},
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+
+		};
