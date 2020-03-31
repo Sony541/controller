@@ -70,9 +70,10 @@ li a:hover:not(.active) {
 }
 
 #wrapper div.half-width{
-    display: inline-grid;
+    display: inline-block;
     width: 40vw;
     height: 100%;
+    vertical-align:top;
 }
 
 

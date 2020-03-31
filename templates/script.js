@@ -20,19 +20,19 @@
 			data: {
 				labels: [ // Date Objects
 				],
-				datasets: [ /*{
+				datasets: [ {
 					label: 'Температура процессора',
 					backgroundColor: color('#bbcc88').alpha(0.7).rgbString(),
 					borderColor: "#bbcc88",
 					fill: false,
                     data : [{% for item in cache['graphs']['cpu_temp'] %} { x: newDateString({{item}}), y: {{ cache['graphs']['cpu_temp'][item]}} },{% endfor %}],
-				},*/{
+				},/*{
 					label: 'Место на диске',
 					backgroundColor: color('#dd8888').alpha(0.7).rgbString(),
 					borderColor: "#dd8888",
 					fill: false,
                     data : [{% for item in cache['graphs']['diskspace_left'] %} { x: newDateString({{item}}), y: {{ cache['graphs']['diskspace_left'][item]}} },{% endfor %}],
-				}]
+				}*/]
 			},
 			options: {
 				title: {
