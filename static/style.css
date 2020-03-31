@@ -59,7 +59,6 @@ li a:hover:not(.active) {
 }
 
 #wrapper div.pads{
-
     margin: 0 1vw 1vh 1vw;
     padding: 0.5vw;
     background-color: white;
@@ -76,7 +75,14 @@ li a:hover:not(.active) {
     vertical-align:top;
 }
 
+#wrapper div.chart-container {
+  position: relative;
+  margin: auto;
+  height: 40vh;
+}
+#wrapper div.chart-container div{
 
+}
 
 footer  {
     text-align: center;
@@ -87,4 +93,3 @@ footer  {
     vertical-align: bottom;
     line-height: 6vh;
 }
-
