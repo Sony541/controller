@@ -28,7 +28,8 @@ CACHE = {}
 
 CACHE['graphs'] = {}
 CACHE['graphs']['cpu_temp'] = loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/cpu_temp?last=24")).content)['data']
-CACHE['graphs']['diskspace_left'] = loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/diskspace_left?last=120")).content)['data']
+CACHE['graphs']['diskspace_left'] = next(iter(loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/diskspace_left?last=1")).content)['data'].values()))
+#CACHE['graphs']['diskspace_left'] = loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/diskspace_left?last=1")).content)['data']
 
 @app.route('/')
 @app.route('/index')

@@ -15,7 +15,7 @@ function newDateString(sec) {
 }
 
 var color = Chart.helpers.color;
-var config = {
+var config_temp = {
     type: 'line',
     data: {
         labels: [ // Date Objects
@@ -64,8 +64,34 @@ var config = {
     }
 };
 
-window.onload = function() {
-    var ctx = document.getElementById('canvas').getContext('2d');
-    window.myLine = new Chart(ctx, config);
+var hdd_space = Math.round(({{cache['graphs']['diskspace_left']}} / 1024 / 1024)*100) / 100;
 
+var config_hdd = {
+    type: 'doughnut',
+    data: {
+        datasets: [{
+            hoverBorderColor: ['#ffffff', '#ffffff'],
+            borderColor: ['#ffffff', '#ffffff'],
+            backgroundColor: [color('#cccccc').alpha(0.7).rgbString(),color('#bbcc88').alpha(0.7).rgbString()],
+            data: [
+                16-hdd_space, hdd_space
+            ]
+        }],
+        labels: ['Занято','Свободно'],
+    },
+    options: {
+        title: {
+            text: 'Место на диске'
+        },
+        maintainAspectRatio: false,
+        circumference: Math.PI / 2,
+        rotation: -Math.PI / 4 * 3
+    }
+};
+
+window.onload = function() {
+    var ctx_temp = document.getElementById('canvas_temp').getContext('2d');
+    window.myLine = new Chart(ctx_temp, config_temp);
+    var ctx_hdd = document.getElementById('canvas_hdd').getContext('2d');
+    window.myLine = new Chart(ctx_hdd, config_hdd);
 };
