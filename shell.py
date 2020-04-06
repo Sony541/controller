@@ -1,5 +1,6 @@
 from os import popen
 from time import time
+import json, requests
 
 
 def execute(command):
@@ -48,8 +49,19 @@ def poll_services(SERVICES, COMMANDS):
     return SERVICES
 
 
-def update_cache(CACHE):
+def update_cache(CACHE, PORTS):
     CACHE['time'] = int(time())
     CACHE['temp'] = execute("vcgencmd measure_temp | cut -b 6-7")
     CACHE['uptime'] = execute("uptime -p")
+
+    CACHE['graphs'] = {}
+    CACHE['graphs']['cpu_temp'] = \
+        json.loads(requests.get('http://127.0.0.1:%s/api/%s' % \
+                           (PORTS['restapi'], "v1/metrics/cpu_temp?last=24")).content)['data']
+    CACHE['graphs']['diskspace_left'] = \
+        next(iter(json.loads(requests.get('http://127.0.0.1:%s/api/%s' % \
+                                     (PORTS['restapi'], "v1/metrics/diskspace_left?last=1")).content)[
+                      'data'].values()))
+    # CACHE['graphs']['diskspace_left'] = loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/diskspace_left?last=1")).content)['data']
+
     return CACHE

@@ -3,7 +3,6 @@
 import requests
 from flask import Flask, render_template, redirect, url_for, request, Response
 import shell
-from json import loads, dumps
 
 
 app = Flask(__name__)
@@ -26,16 +25,11 @@ SERVICES = {
 
 CACHE = {}
 
-CACHE['graphs'] = {}
-CACHE['graphs']['cpu_temp'] = loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/cpu_temp?last=24")).content)['data']
-CACHE['graphs']['diskspace_left'] = next(iter(loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/diskspace_left?last=1")).content)['data'].values()))
-#CACHE['graphs']['diskspace_left'] = loads(requests.get('http://127.0.0.1:%s/api/%s' % (PORTS['restapi'], "v1/metrics/diskspace_left?last=1")).content)['data']
 
 @app.route('/')
 @app.route('/index')
 def index():
-
-    shell.update_cache(CACHE)
+    shell.update_cache(CACHE, PORTS)
     shell.poll_services(SERVICES, COMMANDS)
     param = request.args
     return render_template('index.html', title='Main', services=SERVICES, commands=COMMANDS, cache=CACHE, param=param)
